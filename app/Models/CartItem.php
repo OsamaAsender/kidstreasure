@@ -1,20 +1,19 @@
+
 <?php
 
-namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class OrderItem extends Model
+class CartItem extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'order_id',
+        'cart_id',
         'product_id',
         'quantity',
-        'unit_price_jod',
-        'subtotal_jod',
+        'price',
         'product_name',
         'product_image',
         'options',
@@ -24,10 +23,10 @@ class OrderItem extends Model
         'options' => 'array',
     ];
 
-    // العلاقة مع الطلب
-    public function order()
+    // العلاقة مع السلة
+    public function cart()
     {
-        return $this->belongsTo(Order::class);
+        return $this->belongsTo(Cart::class);
     }
 
     // العلاقة مع المنتج
@@ -39,6 +38,6 @@ class OrderItem extends Model
     // حساب السعر الإجمالي للعنصر
     public function getTotalAttribute()
     {
-        return $this->subtotal_jod;
+        return $this->price * $this->quantity;
     }
 }
